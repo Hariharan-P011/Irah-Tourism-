@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+<style>
+  body { background-color: antiquewhite; }
+  nav { text-align: center; background-color: #ddd; padding: 10px; }
+  nav a { margin: 0 15px; text-decoration: none; color: black; font-size: 18px; font-weight: bold; }
+  .one { text-align: center; }
+  #box {
+    background-color: grey;
+    margin: 30px auto;
+    padding: 70px 40px 20px;
+    height: 450px;
+    width: 800px;
+    border: 30px solid black;
+    box-shadow: 25px 25px 2px rgb(170,170,170);
+    font-size: 20px;
+  }
+  #box input[type="text"] { padding: 6px; font-size: 16px; width: 200px; margin-top: 8px; }
+  #box input[type="button"] {
+    padding: 8px 20px; font-size: 16px; cursor: pointer;
+    background-color: #333; color: white; border: none; border-radius: 4px; margin-top: 10px;
+  }
+  #result { font-weight: bold; margin-top: 10px; font-size: 22px; }
+  #discount { color: darkgreen; font-size: 22px; font-weight: bold; }
+</style>
+<head><title>Discount</title></head>
+<body>
+  <nav>
+    <a href="index.html">HOME</a>
+    <a href="places.html">PLACES</a>
+    <a href="discount.html">DISCOUNT</a>
+    <a href="menu.html">ITEMS</a>
+    <a href="details.html">DETAILS</a>
+    <a href="about.html">ABOUT US</a>
+  </nav>
+  <h1 class="one">GET YOUR DISCOUNT!!</h1><hr>
+  <div id="box">
+    Try your luck!!<br><br>
+    <label for="num">ENTER A NUMBER BETWEEN 1 TO 10:</label><br>
+    <input type="text" id="num"><br><br>
+    <input type="button" onclick="check()" value="Check">
+    <p id="result">Guess the correct number to get your discount!</p>
+    <p id="discount">Your Discount = 20%</p>
+  </div>
+  <script>
+    var randomNumber = Math.floor(Math.random() * 10) + 1;
+    var discount = 20;
+    function check() {
+      var userGuess = document.getElementById("num").value;
+      var result = document.getElementById("result");
+      var discountElement = document.getElementById("discount");
+      if (parseInt(randomNumber) === parseInt(userGuess)) {
+        result.textContent = "You're right! 🎉";
+        result.style.color = "green";
+        alert("CONGRATULATIONS!! You get " + discount + "% discount!");
+      } else {
+        discount -= 2;
+        if (discount < 0) discount = 0;
+        discountElement.textContent = "Your Discount = " + discount + "%";
+        result.textContent = "You're wrong! Try again.";
+        result.style.color = "red";
+      }
+    }
+  </script>
+</body>
+</html>

@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Interactive Food Menu</title>
+  <style>
+    body { font-family: Arial, sans-serif; margin: 0; background-color: #333; color: #333; }
+    nav { text-align: center; background-color: white; padding: 10px; }
+    nav a { margin: 0 15px; text-decoration: none; color: black; font-size: 18px; font-weight: bold; }
+    h1 { text-align: center; color: #2c3e50; background-color: white; margin: 0; padding: 15px 0; }
+    h2 { text-align: center; color: #2c3e50; }
+    .input-area { text-align: center; padding: 15px; }
+    label { font-size: 1.1em; margin-right: 10px; color: antiquewhite; }
+    input[type="text"] { font-size: 1em; padding: 6px; width: 250px; border: 1px solid #bdc3c7; border-radius: 4px; }
+    button { font-size: 1em; padding: 6px 12px; color: #fff; background-color: #3498db; border: none; border-radius: 4px; cursor: pointer; }
+    button:hover { background-color: #2980b9; }
+    .menu { margin: 20px auto; width: 600px; background-color: #ecf0f1; border-radius: 8px; padding: 20px; box-shadow: 0px 4px 6px rgba(0,0,0,0.1); }
+    .food-item { font-size: 1.1em; display: flex; justify-content: space-between; align-items: center; padding: 10px; margin: 5px 0; background-color: #fff; border-radius: 5px; box-shadow: 0px 2px 4px rgba(0,0,0,0.1); transition: transform 0.2s; }
+    .food-item:hover { transform: translateY(-3px); }
+    .remove-btn { margin-left: 10px; color: #e74c3c; cursor: pointer; font-size: 0.9em; font-weight: bold; padding: 5px 10px; border: none; border-radius: 3px; background-color: #f2d7d5; }
+    .remove-btn:hover { background-color: #e74c3c; color: #fff; }
+    .food-image { display: block; margin: 20px auto; width: 300px; height: 200px; border-radius: 10px; transition: transform 0.3s; box-shadow: 0px 4px 8px rgba(0,0,0,0.2); cursor: pointer; object-fit: cover; }
+    .food-image:hover { transform: scale(1.1); }
+    #footer { text-align: center; background-color: white; color: #333; padding: 15px; margin-top: 20px; }
+  </style>
+</head>
+<body>
+  <nav>
+    <a href="index.html">HOME</a>
+    <a href="places.html">PLACES</a>
+    <a href="discount.html">DISCOUNT</a>
+    <a href="menu.html">ITEMS</a>
+    <a href="details.html">DETAILS</a>
+    <a href="about.html">ABOUT US</a>
+  </nav>
+  <h1>Food Menu</h1>
+  <div class="input-area">
+    <label for="foodInput">Add Food Item:</label>
+    <input type="text" id="foodInput" placeholder="Enter food name">
+    <button onclick="addFoodItem()">Add</button>
+  </div>
+  <div class="menu">
+    <h2>Menu Items</h2>
+    <div id="foodList"></div>
+  </div>
+  <img id="foodImage" class="food-image"
+    src="https://static.vecteezy.com/system/resources/thumbnails/046/673/859/small/delicious-tandoori-chicken-served-on-a-plate-free-photo.jpg"
+    alt="Food Image" onclick="changeImage()">
+  <p style="text-align:center; color:antiquewhite; font-size:13px;">(Click image to change)</p>
+  <footer id="footer">
+    All rights are reserved to IRAH TOURISM.<br>
+    Further details contact 1234567890 or email: abc123@gmail.com
+  </footer>
+  <script>
+    function addFoodItem() {
+      const foodInput = document.getElementById('foodInput');
+      const foodList  = document.getElementById('foodList');
+      const foodName  = foodInput.value.trim();
+      if (foodName) {
+        const foodItem = document.createElement('div');
+        foodItem.className = 'food-item';
+        const span = document.createElement('span');
+        span.textContent = foodName;
+        const removeBtn = document.createElement('button');
+        removeBtn.className = 'remove-btn';
+        removeBtn.textContent = 'Remove';
+        removeBtn.onclick = function () { foodList.removeChild(foodItem); };
+        foodItem.appendChild(span);
+        foodItem.appendChild(removeBtn);
+        foodList.appendChild(foodItem);
+        foodInput.value = '';
+      } else {
+        alert('Please enter a food item!');
+      }
+    }
+    const imageSources = [
+      "https://media.istockphoto.com/id/186087388/photo/thali-with-rice-and-vegetables-on-green-painted-wooden-table.jpg?s=612x612&w=0&k=20&c=XSo8ePZ8Iy3Y1JGPK68uEmMeTx9S6tkTFaqTbsBc-no=",
+      "https://static.vecteezy.com/system/resources/thumbnails/046/673/859/small/delicious-tandoori-chicken-served-on-a-plate-free-photo.jpg"
+    ];
+    let currentIndex = 0;
+    function changeImage() {
+      currentIndex = (currentIndex + 1) % imageSources.length;
+      document.getElementById('foodImage').src = imageSources[currentIndex];
+    }
+  </script>
+</body>
+</html>
