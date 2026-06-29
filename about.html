@@ -1,27 +1,57 @@
 <!DOCTYPE html>
 <html>
 <style>
-  body { border-style: ridge; background-color: #1a1a2e; margin: 0; }
-  nav { text-align: center; background-color: #ddd; padding: 10px; }
-  nav a { margin: 0 15px; text-decoration: none; color: black; font-size: 18px; font-weight: bold; }
-  h1 { color: white; text-align: center; padding: 15px 0; }
-  #one { position: relative; width: 100%; background-color: white; display: flex; }
-  .two { position: relative; display: inline-block; height: 420px; width: 50%; background-color: black; color: antiquewhite; }
-  #three { margin: 20px; font-size: 16px; line-height: 1.6; }
-  #four { font-size: 18px; font-family: Verdana; text-align: center; padding: 10px; }
-  marquee { background-color: black; font-size: large; color: white; padding: 8px 0; }
-  #five { background-color: black; color: antiquewhite; text-align: center; padding: 20px; }
-  iframe { display: block; margin: 15px auto 0; }
-  audio { display: block; margin: 10px auto; }
+  :root {
+    color-scheme: dark;
+    --bg: #0f0b18;
+    --surface: #171224;
+    --text: #f8f4ff;
+    --muted: #d9c7ff;
+    --accent: #a855f7;
+    --accent-strong: #7c3aed;
+    --border: rgba(168, 85, 247, 0.35);
+    --shadow: 0 14px 34px rgba(0, 0, 0, 0.25);
+  }
+  @media (prefers-color-scheme: light) {
+    :root {
+      color-scheme: light;
+      --bg: #f7f1ff;
+      --surface: #ffffff;
+      --text: #1f132f;
+      --muted: #5f4a7e;
+      --accent: #7c3aed;
+      --accent-strong: #5b21b6;
+      --border: rgba(124, 58, 237, 0.35);
+      --shadow: 0 12px 28px rgba(124, 58, 237, 0.12);
+    }
+  }
+  * { box-sizing: border-box; }
+  body { border-style: ridge; border-color: var(--border); background: var(--bg); color: var(--text); margin: 0; font-family: Arial, sans-serif; line-height: 1.6; }
+  nav { text-align: center; background: linear-gradient(90deg, var(--accent-strong), var(--accent)); padding: 12px 10px; box-shadow: var(--shadow); }
+  nav a { margin: 0 10px; text-decoration: none; color: var(--surface); font-size: 16px; font-weight: bold; }
+  h1 { color: var(--text); text-align: center; padding: 15px 0; margin: 0; }
+  #one { position: relative; width: 100%; background: var(--surface); display: flex; gap: 20px; padding: 20px; border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); }
+  .two { position: relative; display: inline-block; min-height: 420px; width: 50%; background: linear-gradient(135deg, var(--surface), var(--bg)); color: var(--text); border: 1px solid var(--border); border-radius: 14px; padding: 16px; box-shadow: var(--shadow); }
+  #three { margin: 0; font-size: 16px; line-height: 1.7; }
+  #four { font-size: 18px; font-family: Verdana; text-align: center; padding: 10px; color: var(--muted); margin: 0; }
+  marquee { background: var(--surface); font-size: large; color: var(--text); padding: 10px 12px; border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); }
+  #five { background: var(--surface); color: var(--text); text-align: center; padding: 20px; border-top: 1px solid var(--border); }
+  iframe { display: block; margin: 15px auto 0; width: min(100%, 400px); height: auto; aspect-ratio: 16 / 9; }
+  audio { display: block; margin: 10px auto; width: min(100%, 320px); }
+  @media (max-width: 768px) { #one { flex-direction: column; } .two { width: 100%; } }
+  @media (max-width: 480px) { nav a { display: inline-block; margin: 4px 6px; font-size: 14px; } #four { font-size: 16px; } }
 </style>
-<head><title>About Us</title></head>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>About Us</title>
+</head>
 <body>
   <nav>
     <a href="index.html">HOME</a>
     <a href="places.html">PLACES</a>
-    <a href="discount.html">DISCOUNT</a>
     <a href="menu.html">ITEMS</a>
-    <a href="details.html">DETAILS</a>
+    <a href="account.html">ACCOUNT</a>
     <a href="about.html">ABOUT US</a>
   </nav>
   <h1><i>ABOUT US..</i></h1><hr>

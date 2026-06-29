@@ -1,73 +1,160 @@
 <!DOCTYPE html>
 <html>
 <style>
+  :root {
+    color-scheme: dark;
+    --bg: #0f0b18;
+    --surface: #171224;
+    --text: #f8f4ff;
+    --muted: #d9c7ff;
+    --accent: #a855f7;
+    --accent-strong: #7c3aed;
+    --border: rgba(168, 85, 247, 0.35);
+    --shadow: 0 14px 34px rgba(0, 0, 0, 0.25);
+  }
+  body[data-theme="light"] {
+    color-scheme: light;
+    --bg: #f7f1ff;
+    --surface: #ffffff;
+    --text: #1f132f;
+    --muted: #5f4a7e;
+    --accent: #7c3aed;
+    --accent-strong: #5b21b6;
+    --border: rgba(124, 58, 237, 0.35);
+    --shadow: 0 12px 28px rgba(124, 58, 237, 0.12);
+  }
+  * { box-sizing: border-box; }
   body {
-    background-color: grey;
-    background-repeat: no-repeat;
+    background: var(--bg);
+    color: var(--text);
+    margin: 0;
+    font-family: Arial, sans-serif;
+    line-height: 1.6;
     border-style: inset;
+    border-color: var(--border);
   }
   nav {
-    text-align: center;
-    background-color: white;
-    padding: 10px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 12px;
+    flex-wrap: wrap;
+    background: linear-gradient(90deg, var(--accent-strong), var(--accent));
+    padding: 12px 16px;
+    box-shadow: var(--shadow);
   }
   nav a {
-    margin: 0 20px;
+    margin: 0 8px;
     text-decoration: none;
-    color: black;
-    font-size: 20px;
+    color: var(--surface);
+    font-size: 16px;
+    font-weight: bold;
+  }
+  #theme-toggle {
+    border: none;
+    border-radius: 999px;
+    padding: 8px 12px;
+    cursor: pointer;
+    background: var(--surface);
+    color: var(--accent-strong);
     font-weight: bold;
   }
   #zero {
     text-align: center;
     font-size: 40px;
     padding-top: 30px;
+    margin-bottom: 10px;
   }
-  #one { margin-top: 50px; margin-left: 200px; }
-  #three { margin-top: 50px; margin-left: 200px; }
+  #one, #three { margin-top: 40px; text-align: center; }
   #two1, #two2 {
-    height: 300px;
-    width: 900px;
-    margin-left: auto;
-    margin-right: auto;
-    background-color: whitesmoke;
+    max-width: 1100px;
+    width: min(100% - 32px, 1100px);
+    margin: 20px auto 0;
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 20px;
+    background: transparent;
   }
   .a {
-    display: inline-block;
-    background-color: black;
-    height: 280px;
-    width: 297.2px;
-    color: antiquewhite;
+    display: block;
+    background: linear-gradient(135deg, var(--surface), var(--bg));
+    min-height: 280px;
+    color: var(--text);
     text-align: center;
-    padding-top: 20px;
+    padding: 20px 14px;
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    box-shadow: var(--shadow);
   }
-  .in { padding: 20px; }
-  #move { font-size: 28px; background-color: white; }
+  .book-btn {
+    display: inline-block;
+    margin-top: 8px;
+    background: linear-gradient(90deg, var(--accent-strong), var(--accent));
+    color: var(--surface);
+    padding: 8px 12px;
+    border-radius: 8px;
+    text-decoration: none;
+    font-weight: bold;
+  }
+  .in { padding: 20px 4px; }
+  #move { font-size: 28px; background: var(--surface); color: var(--text); padding: 10px 8px; }
+  .panel { max-width: 1100px; margin: 20px auto; padding: 16px; background: var(--surface); border-radius: 14px; border: 1px solid var(--border); }
+  @media (max-width: 768px) { #two1, #two2 { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+  @media (max-width: 480px) { nav a { display: inline-block; margin: 4px 6px; font-size: 14px; } #two1, #two2 { grid-template-columns: 1fr; } #zero { font-size: 28px; } #move { font-size: 18px; } }
 </style>
-<head><title>List of Places</title></head>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>List of Places</title>
+</head>
 <body>
   <nav>
-    <a href="index.html">HOME</a>
-    <a href="places.html">PLACES</a>
-    <a href="discount.html">DISCOUNT</a>
-    <a href="menu.html">ITEMS</a>
-    <a href="details.html">DETAILS</a>
-    <a href="about.html">ABOUT US</a>
+    <div>
+      <a href="index.html">HOME</a>
+      <a href="places.html">PLACES</a>
+      <a href="menu.html">ITEMS</a>
+      <a href="account.html">ACCOUNT</a>
+      <a href="about.html">ABOUT US</a>
+    </div>
+    <button id="theme-toggle" type="button">☀️ Light</button>
   </nav>
   <h1 id="zero">AVAILABLE PACKAGE</h1><hr>
+  <div class="panel" id="login-status">Please log in from the account page before booking.</div>
   <h1 id="one">FOREIGN PLACES</h1>
   <div id="two1">
-    <div class="a"><b>SWITZERLAND</b><hr><p class="in">EVENTS : 6<br><br>SPOTS : 4<br><br>DAYS : 7(stay)<br><br>PRICE : 60K<br><br><a href="form.html" style="color:lightblue;">@ BOOK TICKET</a></p></div>
-    <div class="a"><b>MALDIVES</b><hr><p class="in">EVENTS : 6<br><br>SPOTS : 4<br><br>DAYS : 7(stay)<br><br>PRICE : 40K<br><br><a href="form.html" style="color:lightblue;">@ BOOK TICKET</a></p></div>
-    <div class="a"><b>ICELAND</b><hr><p class="in">EVENTS : 6<br><br>SPOTS : 4<br><br>DAYS : 7(stay)<br><br>PRICE : 75K<br><br><a href="form.html" style="color:lightblue;">@ BOOK TICKET</a></p></div>
+    <div class="a"><b>SWITZERLAND</b><hr><p class="in">EVENTS : 6<br><br>SPOTS : 4<br><br>DATE : 29 June 2026 to 05 July 2026<br><br>TIME : 08:00 AM to 06:00 PM<br><br>PRICE : 60K<br><br><a class="book-btn" href="form.html?plan=Switzerland">@ BOOK TICKET</a></p></div>
+    <div class="a"><b>MALDIVES</b><hr><p class="in">EVENTS : 6<br><br>SPOTS : 4<br><br>DATE : 10 July 2026 to 17 July 2026<br><br>TIME : 09:00 AM to 07:00 PM<br><br>PRICE : 40K<br><br><a class="book-btn" href="form.html?plan=Maldives">@ BOOK TICKET</a></p></div>
+    <div class="a"><b>ICELAND</b><hr><p class="in">EVENTS : 6<br><br>SPOTS : 4<br><br>DATE : 20 July 2026 to 27 July 2026<br><br>TIME : 10:00 AM to 08:00 PM<br><br>PRICE : 75K<br><br><a class="book-btn" href="form.html?plan=Iceland">@ BOOK TICKET</a></p></div>
   </div>
   <h1 id="three">INDIAN PLACES</h1>
   <div id="two2">
-    <div class="a"><b>DELHI</b><hr><p class="in">EVENTS : 6<br><br>SPOTS : 4<br><br>DAYS : 7(stay)<br><br>PRICE : 30K<br><br><a href="form.html" style="color:lightblue;">@ BOOK TICKET</a></p></div>
-    <div class="a"><b>JAMMU AND KASHMIR</b><hr><p class="in">EVENTS : 6<br><br>SPOTS : 4<br><br>DAYS : 7(stay)<br><br>PRICE : 20K<br><br><a href="form.html" style="color:lightblue;">@ BOOK TICKET</a></p></div>
-    <div class="a"><b>GOA</b><hr><p class="in">EVENTS : 6<br><br>SPOTS : 4<br><br>DAYS : 7(stay)<br><br>PRICE : 40K<br><br><a href="form.html" style="color:lightblue;">@ BOOK TICKET</a></p></div>
+    <div class="a"><b>DELHI</b><hr><p class="in">EVENTS : 6<br><br>SPOTS : 4<br><br>DATE : 01 August 2026 to 08 August 2026<br><br>TIME : 07:00 AM to 05:00 PM<br><br>PRICE : 30K<br><br><a class="book-btn" href="form.html?plan=Delhi">@ BOOK TICKET</a></p></div>
+    <div class="a"><b>JAMMU AND KASHMIR</b><hr><p class="in">EVENTS : 6<br><br>SPOTS : 4<br><br>DATE : 12 August 2026 to 19 August 2026<br><br>TIME : 08:30 AM to 06:30 PM<br><br>PRICE : 20K<br><br><a class="book-btn" href="form.html?plan=Jammu and Kashmir">@ BOOK TICKET</a></p></div>
+    <div class="a"><b>GOA</b><hr><p class="in">EVENTS : 6<br><br>SPOTS : 4<br><br>DATE : 22 August 2026 to 29 August 2026<br><br>TIME : 09:30 AM to 07:30 PM<br><br>PRICE : 40K<br><br><a class="book-btn" href="form.html?plan=Goa">@ BOOK TICKET</a></p></div>
   </div>
   <br>
   <marquee id="move">For more details contact : 1234567890 (or) email : abc123@gmail.com</marquee>
+  <script>
+    const STORAGE_KEYS = { user: 'irah_user', theme: 'irah_theme' };
+    function getStoredUser() {
+      const storedUser = sessionStorage.getItem(STORAGE_KEYS.user);
+      return storedUser ? JSON.parse(storedUser) : null;
+    }
+    function applyTheme(theme) {
+      document.body.setAttribute('data-theme', theme);
+      localStorage.setItem(STORAGE_KEYS.theme, theme);
+      document.getElementById('theme-toggle').textContent = theme === 'light' ? '🌙 Dark' : '☀️ Light';
+    }
+    const savedTheme = localStorage.getItem(STORAGE_KEYS.theme) || 'dark';
+    applyTheme(savedTheme);
+    document.getElementById('theme-toggle').addEventListener('click', () => {
+      const nextTheme = document.body.getAttribute('data-theme') === 'light' ? 'dark' : 'light';
+      applyTheme(nextTheme);
+    });
+    const user = getStoredUser();
+    document.getElementById('login-status').textContent = user
+      ? `Logged in as ${user.name}. You can proceed to book.`
+      : 'Please log in from the account page before booking.';
+  </script>
 </body>
 </html>

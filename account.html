@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Account</title>
+  <style>
+    :root {
+      color-scheme: dark;
+      --bg: #0f0b18;
+      --surface: #171224;
+      --text: #f8f4ff;
+      --muted: #d9c7ff;
+      --accent: #a855f7;
+      --accent-strong: #7c3aed;
+      --border: rgba(168, 85, 247, 0.35);
+      --shadow: 0 14px 34px rgba(0, 0, 0, 0.25);
+    }
+    body[data-theme="light"] {
+      color-scheme: light;
+      --bg: #f7f1ff;
+      --surface: #ffffff;
+      --text: #1f132f;
+      --muted: #5f4a7e;
+      --accent: #7c3aed;
+      --accent-strong: #5b21b6;
+      --border: rgba(124, 58, 237, 0.35);
+      --shadow: 0 12px 28px rgba(124, 58, 237, 0.12);
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+    }
+    nav {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+      padding: 12px 16px;
+      background: linear-gradient(90deg, var(--accent-strong), var(--accent));
+      box-shadow: var(--shadow);
+      flex-wrap: wrap;
+    }
+    nav a {
+      color: var(--surface);
+      text-decoration: none;
+      font-weight: bold;
+      margin: 0 8px;
+    }
+    #theme-toggle {
+      border: none;
+      border-radius: 999px;
+      padding: 8px 12px;
+      cursor: pointer;
+      background: var(--surface);
+      color: var(--accent-strong);
+      font-weight: bold;
+    }
+    main { max-width: 1000px; margin: 24px auto; padding: 0 16px 40px; }
+    .panel {
+      background: linear-gradient(135deg, var(--surface), var(--bg));
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 24px;
+      box-shadow: var(--shadow);
+      margin-bottom: 20px;
+    }
+    .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+    .card { padding: 16px; border: 1px solid var(--border); border-radius: 12px; background: var(--surface); }
+    .muted { color: var(--muted); }
+    form input {
+      width: 100%; padding: 10px; margin-top: 6px; margin-bottom: 12px;
+      border: 1px solid var(--border); border-radius: 8px;
+      background: var(--bg); color: var(--text);
+    }
+    button { cursor: pointer; }
+    .primary-btn {
+      background: linear-gradient(90deg, var(--accent-strong), var(--accent));
+      color: var(--surface);
+      border: none;
+      padding: 10px 14px;
+      border-radius: 8px;
+      font-weight: bold;
+    }
+    .secondary-btn {
+      background: transparent;
+      color: var(--accent);
+      border: 1px solid var(--accent);
+      padding: 10px 14px;
+      border-radius: 8px;
+      font-weight: bold;
+    }
+    ul { padding-left: 20px; }
+    li { margin-bottom: 8px; }
+    @media (max-width: 768px) { .grid { grid-template-columns: 1fr; } }
+  </style>
+</head>
+<body>
+  <nav>
+    <div>
+      <a href="index.html">HOME</a>
+      <a href="places.html">PLACES</a>
+      <a href="menu.html">ITEMS</a>
+      <a href="account.html">ACCOUNT</a>
+      <a href="about.html">ABOUT US</a>
+    </div>
+    <button id="theme-toggle" type="button">☀️ Light</button>
+  </nav>
+  <main>
+    <section class="panel">
+      <h1>ACCOUNT</h1>
+      <p class="muted">Log in to book tours, view your current reservation, and review previous trips.</p>
+    </section>
+    <section class="panel" id="auth-panel">
+      <div class="grid">
+        <div class="card">
+          <h2>Sign up</h2>
+          <form id="signup-form">
+            <label>Name</label>
+            <input type="text" id="signup-name" required>
+            <label>Email</label>
+            <input type="email" id="signup-email" required>
+            <button class="primary-btn" type="submit">Sign up</button>
+          </form>
+        </div>
+        <div class="card">
+          <h2>Login</h2>
+          <form id="login-form">
+            <label>Name</label>
+            <input type="text" id="login-name" required>
+            <label>Email</label>
+            <input type="email" id="login-email" required>
+            <button class="primary-btn" type="submit">Log in</button>
+          </form>
+        </div>
+      </div>
+    </section>
+    <section class="panel" id="account-view" style="display:none;">
+      <h2>Welcome back</h2>
+      <p><strong>Name:</strong> <span id="user-name"></span></p>
+      <p><strong>Email:</strong> <span id="user-email"></span></p>
+      <button class="secondary-btn" id="logout-btn" type="button">Log out</button>
+    </section>
+    <section class="panel" id="bookings-panel" style="display:none;">
+      <h2>Your bookings</h2>
+      <div class="grid">
+        <div class="card">
+          <h3>Current bookings</h3>
+          <ul id="current-bookings"></ul>
+        </div>
+        <div class="card">
+          <h3>Previous bookings</h3>
+          <ul id="previous-bookings"></ul>
+        </div>
+      </div>
+    </section>
+  </main>
+  <script>
+    const STORAGE_KEYS = {
+      user: 'irah_user',
+      theme: 'irah_theme',
+      accounts: 'irah_accounts',
+      bookings: 'irah_bookings'
+    };
+
+    function getStoredUser() {
+      const storedUser = sessionStorage.getItem(STORAGE_KEYS.user);
+      return storedUser ? JSON.parse(storedUser) : null;
+    }
+
+    function saveStoredUser(user) {
+      sessionStorage.setItem(STORAGE_KEYS.user, JSON.stringify(user));
+    }
+
+    function getAccounts() {
+      return JSON.parse(localStorage.getItem(STORAGE_KEYS.accounts) || '[]');
+    }
+
+    function saveAccounts(accounts) {
+      localStorage.setItem(STORAGE_KEYS.accounts, JSON.stringify(accounts));
+    }
+
+    function getBookings() {
+      const stored = localStorage.getItem(STORAGE_KEYS.bookings);
+      if (!stored) return {};
+      try {
+        const parsed = JSON.parse(stored);
+        return parsed && typeof parsed === 'object' && !Array.isArray(parsed) ? parsed : {};
+      } catch {
+        return {};
+      }
+    }
+
+    function saveBookings(bookings) {
+      localStorage.setItem(STORAGE_KEYS.bookings, JSON.stringify(bookings));
+    }
+
+    function getUserBookings(user) {
+      const bookings = getBookings();
+      return Array.isArray(bookings[user.email]) ? bookings[user.email] : [];
+    }
+
+    function saveUserBookings(user, bookings) {
+      const allBookings = getBookings();
+      allBookings[user.email] = bookings;
+      saveBookings(allBookings);
+    }
+
+    function applyTheme(theme) {
+      document.body.setAttribute('data-theme', theme);
+      localStorage.setItem(STORAGE_KEYS.theme, theme);
+      document.getElementById('theme-toggle').textContent = theme === 'light' ? '🌙 Dark' : '☀️ Light';
+    }
+
+    function renderAccount() {
+      const user = getStoredUser();
+      const authPanel = document.getElementById('auth-panel');
+      const accountView = document.getElementById('account-view');
+      const bookingsPanel = document.getElementById('bookings-panel');
+      const currentList = document.getElementById('current-bookings');
+      const previousList = document.getElementById('previous-bookings');
+
+      const savedTheme = localStorage.getItem(STORAGE_KEYS.theme) || 'dark';
+      applyTheme(savedTheme);
+
+      if (!user) {
+        authPanel.style.display = 'block';
+        accountView.style.display = 'none';
+        bookingsPanel.style.display = 'none';
+        return;
+      }
+
+      authPanel.style.display = 'none';
+      accountView.style.display = 'block';
+      bookingsPanel.style.display = 'block';
+      document.getElementById('user-name').textContent = user.name;
+      document.getElementById('user-email').textContent = user.email;
+
+      const bookings = getUserBookings(user);
+      const now = new Date();
+      const adjustedBookings = bookings.map(booking => {
+        const endDate = booking.endDate ? new Date(booking.endDate) : null;
+        if (booking.status === 'Current' && endDate && endDate < now) {
+          return { ...booking, status: 'Previous' };
+        }
+        return booking;
+      });
+      saveUserBookings(user, adjustedBookings);
+      const currentBookings = adjustedBookings.filter(booking => booking.status === 'Current');
+      const previousBookings = adjustedBookings.filter(booking => booking.status === 'Previous');
+
+      currentList.innerHTML = currentBookings.length
+        ? currentBookings.map(booking => `<li>${booking.plan} — ${booking.totalLabel} — Items: ${booking.items && booking.items.length ? booking.items.join(', ') : 'No food items'}</li>`).join('')
+        : '<li>No current booking yet.</li>';
+
+      previousList.innerHTML = previousBookings.length
+        ? previousBookings.map(booking => `<li>${booking.plan} — ${booking.totalLabel} — Items: ${booking.items && booking.items.length ? booking.items.join(', ') : 'No food items'}</li>`).join('')
+        : '<li>No previous booking yet.</li>';
+    }
+
+    document.getElementById('signup-form').addEventListener('submit', function (event) {
+      event.preventDefault();
+      const name = document.getElementById('signup-name').value.trim();
+      const email = document.getElementById('signup-email').value.trim().toLowerCase();
+      if (!name || !email) {
+        alert('Please enter your name and email.');
+        return;
+      }
+      const accounts = getAccounts();
+      if (accounts.some(account => account.email.toLowerCase() === email)) {
+        alert('This email is already signed up. Please log in.');
+        return;
+      }
+      accounts.push({ name, email });
+      saveAccounts(accounts);
+      this.reset();
+      alert('Account created successfully. Please log in now.');
+    });
+
+    document.getElementById('login-form').addEventListener('submit', function (event) {
+      event.preventDefault();
+      const enteredName = document.getElementById('login-name').value.trim();
+      const email = document.getElementById('login-email').value.trim().toLowerCase();
+      if (!enteredName || !email) {
+        alert('Please enter your name and email.');
+        return;
+      }
+      const accounts = getAccounts();
+      const matchedAccount = accounts.find(account => account.email.toLowerCase() === email);
+      if (!matchedAccount) {
+        alert('Account not found. Please sign up first.');
+        return;
+      }
+      if (enteredName && enteredName.toLowerCase() !== matchedAccount.name.trim().toLowerCase()) {
+        matchedAccount.name = enteredName;
+        saveAccounts(accounts);
+      }
+      saveStoredUser({ name: matchedAccount.name, email: matchedAccount.email });
+      renderAccount();
+      const params = new URLSearchParams(window.location.search);
+      if (params.get('next') === 'places') {
+        window.location.href = 'places.html';
+      }
+    });
+
+    document.getElementById('logout-btn').addEventListener('click', function () {
+      sessionStorage.removeItem(STORAGE_KEYS.user);
+      renderAccount();
+    });
+
+    document.getElementById('theme-toggle').addEventListener('click', function () {
+      const currentTheme = document.body.getAttribute('data-theme') === 'light' ? 'dark' : 'light';
+      applyTheme(currentTheme);
+    });
+
+    renderAccount();
+  </script>
+</body>
+</html>

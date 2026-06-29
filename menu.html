@@ -3,33 +3,58 @@
 <head>
   <title>Interactive Food Menu</title>
   <style>
-    body { font-family: Arial, sans-serif; margin: 0; background-color: #333; color: #333; }
-    nav { text-align: center; background-color: white; padding: 10px; }
-    nav a { margin: 0 15px; text-decoration: none; color: black; font-size: 18px; font-weight: bold; }
-    h1 { text-align: center; color: #2c3e50; background-color: white; margin: 0; padding: 15px 0; }
-    h2 { text-align: center; color: #2c3e50; }
+    :root {
+      color-scheme: dark;
+      --bg: #0f0b18;
+      --surface: #171224;
+      --text: #f8f4ff;
+      --muted: #d9c7ff;
+      --accent: #a855f7;
+      --accent-strong: #7c3aed;
+      --border: rgba(168, 85, 247, 0.35);
+      --shadow: 0 14px 34px rgba(0, 0, 0, 0.25);
+    }
+    @media (prefers-color-scheme: light) {
+      :root {
+        color-scheme: light;
+        --bg: #f7f1ff;
+        --surface: #ffffff;
+        --text: #1f132f;
+        --muted: #5f4a7e;
+        --accent: #7c3aed;
+        --accent-strong: #5b21b6;
+        --border: rgba(124, 58, 237, 0.35);
+        --shadow: 0 12px 28px rgba(124, 58, 237, 0.12);
+      }
+    }
+    * { box-sizing: border-box; }
+    body { font-family: Arial, sans-serif; margin: 0; background: var(--bg); color: var(--text); line-height: 1.6; }
+    nav { text-align: center; background: linear-gradient(90deg, var(--accent-strong), var(--accent)); padding: 12px 10px; box-shadow: var(--shadow); }
+    nav a { margin: 0 10px; text-decoration: none; color: var(--surface); font-size: 16px; font-weight: bold; }
+    h1 { text-align: center; color: var(--text); background: var(--surface); margin: 0; padding: 15px 0; border-bottom: 1px solid var(--border); }
+    h2 { text-align: center; color: var(--muted); }
     .input-area { text-align: center; padding: 15px; }
-    label { font-size: 1.1em; margin-right: 10px; color: antiquewhite; }
-    input[type="text"] { font-size: 1em; padding: 6px; width: 250px; border: 1px solid #bdc3c7; border-radius: 4px; }
-    button { font-size: 1em; padding: 6px 12px; color: #fff; background-color: #3498db; border: none; border-radius: 4px; cursor: pointer; }
-    button:hover { background-color: #2980b9; }
-    .menu { margin: 20px auto; width: 600px; background-color: #ecf0f1; border-radius: 8px; padding: 20px; box-shadow: 0px 4px 6px rgba(0,0,0,0.1); }
-    .food-item { font-size: 1.1em; display: flex; justify-content: space-between; align-items: center; padding: 10px; margin: 5px 0; background-color: #fff; border-radius: 5px; box-shadow: 0px 2px 4px rgba(0,0,0,0.1); transition: transform 0.2s; }
+    label { font-size: 1.1em; margin-right: 10px; color: var(--text); }
+    input[type="text"] { font-size: 1em; padding: 8px; width: min(100%, 250px); border: 1px solid var(--border); border-radius: 6px; }
+    button { font-size: 1em; padding: 8px 12px; color: var(--surface); background: linear-gradient(90deg, var(--accent-strong), var(--accent)); border: none; border-radius: 6px; cursor: pointer; }
+    button:hover { filter: brightness(1.1); }
+    .menu { margin: 20px auto; width: min(100% - 32px, 600px); background: linear-gradient(135deg, var(--surface), var(--bg)); border-radius: 12px; padding: 20px; box-shadow: var(--shadow); border: 1px solid var(--border); }
+    .food-item { font-size: 1.1em; display: flex; justify-content: space-between; align-items: center; gap: 10px; padding: 10px; margin: 5px 0; background: var(--surface); border-radius: 8px; box-shadow: var(--shadow); transition: transform 0.2s; }
     .food-item:hover { transform: translateY(-3px); }
-    .remove-btn { margin-left: 10px; color: #e74c3c; cursor: pointer; font-size: 0.9em; font-weight: bold; padding: 5px 10px; border: none; border-radius: 3px; background-color: #f2d7d5; }
-    .remove-btn:hover { background-color: #e74c3c; color: #fff; }
-    .food-image { display: block; margin: 20px auto; width: 300px; height: 200px; border-radius: 10px; transition: transform 0.3s; box-shadow: 0px 4px 8px rgba(0,0,0,0.2); cursor: pointer; object-fit: cover; }
-    .food-image:hover { transform: scale(1.1); }
-    #footer { text-align: center; background-color: white; color: #333; padding: 15px; margin-top: 20px; }
+    .remove-btn { margin-left: 10px; color: var(--surface); cursor: pointer; font-size: 0.9em; font-weight: bold; padding: 5px 10px; border: none; border-radius: 6px; background: linear-gradient(90deg, #ef4444, #f97316); }
+    .remove-btn:hover { filter: brightness(1.1); }
+    .food-image { display: block; margin: 20px auto; width: min(100%, 300px); height: auto; border-radius: 10px; transition: transform 0.3s; box-shadow: var(--shadow); cursor: pointer; object-fit: cover; }
+    .food-image:hover { transform: scale(1.05); }
+    #footer { text-align: center; background: var(--surface); color: var(--text); padding: 15px; margin-top: 20px; border-top: 1px solid var(--border); }
+    @media (max-width: 480px) { nav a { display: inline-block; margin: 4px 6px; font-size: 14px; } .food-item { flex-direction: column; align-items: flex-start; } .remove-btn { margin-left: 0; } }
   </style>
 </head>
 <body>
   <nav>
     <a href="index.html">HOME</a>
     <a href="places.html">PLACES</a>
-    <a href="discount.html">DISCOUNT</a>
     <a href="menu.html">ITEMS</a>
-    <a href="details.html">DETAILS</a>
+    <a href="account.html">ACCOUNT</a>
     <a href="about.html">ABOUT US</a>
   </nav>
   <h1>Food Menu</h1>
@@ -40,6 +65,7 @@
   </div>
   <div class="menu">
     <h2>Menu Items</h2>
+    <p style="text-align:center; color:var(--muted);">Choose your food items here. These can be kept for the next booking or updated before payment.</p>
     <div id="foodList"></div>
   </div>
   <img id="foodImage" class="food-image"
@@ -51,11 +77,25 @@
     Further details contact 1234567890 or email: abc123@gmail.com
   </footer>
   <script>
-    function addFoodItem() {
-      const foodInput = document.getElementById('foodInput');
-      const foodList  = document.getElementById('foodList');
-      const foodName  = foodInput.value.trim();
-      if (foodName) {
+    const STORAGE_KEYS = { foodItems: 'irah_food_items' };
+
+    function getFoodItems() {
+      return JSON.parse(localStorage.getItem(STORAGE_KEYS.foodItems) || '[]');
+    }
+
+    function saveFoodItems(items) {
+      localStorage.setItem(STORAGE_KEYS.foodItems, JSON.stringify(items));
+    }
+
+    function renderFoodItems() {
+      const foodList = document.getElementById('foodList');
+      const items = getFoodItems();
+      foodList.innerHTML = '';
+      if (!items.length) {
+        foodList.innerHTML = '<p style="text-align:center; color:var(--muted);">No food items selected yet.</p>';
+        return;
+      }
+      items.forEach((foodName, index) => {
         const foodItem = document.createElement('div');
         foodItem.className = 'food-item';
         const span = document.createElement('span');
@@ -63,15 +103,31 @@
         const removeBtn = document.createElement('button');
         removeBtn.className = 'remove-btn';
         removeBtn.textContent = 'Remove';
-        removeBtn.onclick = function () { foodList.removeChild(foodItem); };
+        removeBtn.onclick = function () {
+          const updatedItems = getFoodItems().filter((_, itemIndex) => itemIndex !== index);
+          saveFoodItems(updatedItems);
+          renderFoodItems();
+        };
         foodItem.appendChild(span);
         foodItem.appendChild(removeBtn);
         foodList.appendChild(foodItem);
+      });
+    }
+
+    function addFoodItem() {
+      const foodInput = document.getElementById('foodInput');
+      const foodName = foodInput.value.trim();
+      if (foodName) {
+        const items = getFoodItems();
+        items.push(foodName);
+        saveFoodItems(items);
+        renderFoodItems();
         foodInput.value = '';
       } else {
         alert('Please enter a food item!');
       }
     }
+
     const imageSources = [
       "https://media.istockphoto.com/id/186087388/photo/thali-with-rice-and-vegetables-on-green-painted-wooden-table.jpg?s=612x612&w=0&k=20&c=XSo8ePZ8Iy3Y1JGPK68uEmMeTx9S6tkTFaqTbsBc-no=",
       "https://static.vecteezy.com/system/resources/thumbnails/046/673/859/small/delicious-tandoori-chicken-served-on-a-plate-free-photo.jpg"
@@ -81,6 +137,21 @@
       currentIndex = (currentIndex + 1) % imageSources.length;
       document.getElementById('foodImage').src = imageSources[currentIndex];
     }
+
+    const returnTarget = new URLSearchParams(window.location.search).get('return');
+    if (returnTarget === 'form') {
+      const note = document.createElement('p');
+      note.style.textAlign = 'center';
+      note.style.color = 'var(--muted)';
+      note.textContent = 'Choose new items here and then return to payment.';
+      document.querySelector('.menu').prepend(note);
+      const returnButton = document.createElement('div');
+      returnButton.style.textAlign = 'center';
+      returnButton.innerHTML = '<a href="form.html" class="secondary-btn" style="margin-top:6px;">Return to booking</a>';
+      document.querySelector('.menu').appendChild(returnButton);
+    }
+
+    renderFoodItems();
   </script>
 </body>
 </html>

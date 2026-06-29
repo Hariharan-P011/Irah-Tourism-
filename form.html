@@ -1,61 +1,102 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Registration</title>
+  <title>Booking</title>
   <style>
-    body { background-color: black; }
-    nav { text-align: center; background-color: white; padding: 10px; }
-    nav a { margin: 0 15px; text-decoration: none; color: black; font-size: 18px; font-weight: bold; }
-    #header { color: bisque; text-align: center; }
+    :root {
+      color-scheme: dark;
+      --bg: #0f0b18;
+      --surface: #171224;
+      --text: #f8f4ff;
+      --muted: #d9c7ff;
+      --accent: #a855f7;
+      --accent-strong: #7c3aed;
+      --border: rgba(168, 85, 247, 0.35);
+      --shadow: 0 14px 34px rgba(0, 0, 0, 0.25);
+    }
+    body[data-theme="light"] {
+      color-scheme: light;
+      --bg: #f7f1ff;
+      --surface: #ffffff;
+      --text: #1f132f;
+      --muted: #5f4a7e;
+      --accent: #7c3aed;
+      --accent-strong: #5b21b6;
+      --border: rgba(124, 58, 237, 0.35);
+      --shadow: 0 12px 28px rgba(124, 58, 237, 0.12);
+    }
+    * { box-sizing: border-box; }
+    body { background: var(--bg); color: var(--text); margin: 0; font-family: Arial, sans-serif; line-height: 1.6; }
+    nav { display:flex; justify-content:space-between; align-items:center; gap:12px; flex-wrap:wrap; background: linear-gradient(90deg, var(--accent-strong), var(--accent)); padding: 12px 16px; box-shadow: var(--shadow); }
+    nav a { margin: 0 8px; text-decoration: none; color: var(--surface); font-size: 16px; font-weight: bold; }
+    #theme-toggle { border:none; border-radius:999px; padding:8px 12px; cursor:pointer; background:var(--surface); color:var(--accent-strong); font-weight:bold; }
+    #header { color: var(--text); text-align: center; }
     #form-container {
-      width: 600px;
-      background-color: whitesmoke;
-      margin: auto;
+      width: min(100% - 32px, 700px);
+      background: linear-gradient(135deg, var(--surface), var(--bg));
+      margin: 20px auto 40px;
       padding: 30px;
-      color: black;
+      color: var(--text);
       font-size: 18px;
-      border-radius: 8px;
+      border-radius: 12px;
+      border: 1px solid var(--border);
+      box-shadow: var(--shadow);
     }
     .form-group { margin-bottom: 15px; }
     .form-group label { display: block; margin-bottom: 4px; font-weight: bold; }
-    .form-group input { width: 90%; padding: 6px; font-size: 16px; border-radius: 4px; border: 1px solid #aaa; }
-    .error { color: red; font-size: 14px; }
-    .select-group { margin: 20px 0; text-align: center; }
-    select { padding: 6px; font-size: 16px; margin-left: 10px; }
-    input[type="submit"] {
-      display: block; margin: 20px auto 0; padding: 10px 30px;
-      background-color: #333; color: white; font-size: 18px;
-      border: none; border-radius: 6px; cursor: pointer;
-    }
-    input[type="submit"]:hover { background-color: #555; }
+    .form-group input, .form-group select { width: 100%; padding: 8px; font-size: 16px; border-radius: 6px; border: 1px solid var(--border); background: var(--bg); color: var(--text); }
+    .error { color: #ff6b6b; font-size: 14px; }
+    .summary, .items-box { margin-top: 18px; padding: 14px; background: var(--surface); border: 1px solid var(--border); border-radius: 8px; }
+    .summary p, .items-box p { margin: 6px 0; }
+    .discount-link { display:inline-block; margin-top: 8px; color: var(--accent); font-weight: bold; text-decoration: none; }
+    .items-box ul { padding-left: 20px; margin: 8px 0 0; }
+    .secondary-btn { display:inline-block; margin-top: 10px; padding: 8px 12px; border: 1px solid var(--accent); border-radius: 6px; color: var(--accent); text-decoration: none; font-weight: bold; }
+    input[type="submit"] { display:block; margin:20px auto 0; padding:10px 30px; background:linear-gradient(90deg, var(--accent-strong), var(--accent)); color:var(--surface); font-size:18px; border:none; border-radius:6px; cursor:pointer; }
+    input[type="submit"]:hover { filter: brightness(1.1); }
+    @media (max-width: 480px) { nav a { display:inline-block; margin:4px 6px; font-size:14px; } #form-container { padding:20px; } }
   </style>
 </head>
 <body>
   <nav>
-    <a href="index.html">HOME</a>
-    <a href="places.html">PLACES</a>
-    <a href="discount.html">DISCOUNT</a>
-    <a href="menu.html">ITEMS</a>
-    <a href="details.html">DETAILS</a>
-    <a href="about.html">ABOUT US</a>
+    <div>
+      <a href="index.html">HOME</a>
+      <a href="places.html">PLACES</a>
+      <a href="menu.html">ITEMS</a>
+      <a href="account.html">ACCOUNT</a>
+      <a href="about.html">ABOUT US</a>
+    </div>
+    <button id="theme-toggle" type="button">☀️ Light</button>
   </nav>
-  <h1 id="header"><b>FILL THE FORM</b></h1>
+  <h1 id="header"><b>BOOK YOUR TOUR</b></h1>
   <div id="form-container">
-    <form onsubmit="return validform()">
+    <p id="login-status">Please log in at account page before booking.</p>
+    <div class="items-box">
+      <h3>Selected items</h3>
+      <p>Your item list is saved automatically for this trip.</p>
+      <ul id="selected-items-list"></ul>
+      <a class="secondary-btn" href="menu.html?return=form">Edit items</a>
+    </div>
+    <div class="items-box">
+      <h3>Discount step</h3>
+      <p>If no code is entered, open the discount page and use the final discount result before payment.</p>
+      <a class="discount-link" href="discount.html?return=form.html">Open discount page</a>
+    </div>
+    <form id="booking-form">
+      <div class="form-group">
+        <label>SELECT PLAN:</label>
+        <select id="plan">
+          <option value="Switzerland">Switzerland</option>
+          <option value="Maldives">Maldives</option>
+          <option value="Iceland">Iceland</option>
+          <option value="Delhi">Delhi</option>
+          <option value="Jammu and Kashmir">Jammu and Kashmir</option>
+          <option value="Goa">Goa</option>
+        </select>
+      </div>
       <div class="form-group">
         <label>ENTER YOUR NAME:</label>
         <input type="text" id="fname">
         <span id="nameerror" class="error"></span>
-      </div>
-      <div class="form-group">
-        <label>ENTER YOUR AGE:</label>
-        <input type="number" id="fage">
-        <span id="ageerror" class="error"></span>
-      </div>
-      <div class="form-group">
-        <label>ENTER YOUR DATE OF BIRTH:</label>
-        <input type="date" id="fdob">
-        <span id="doberror" class="error"></span>
       </div>
       <div class="form-group">
         <label>ENTER NUMBER OF TICKETS:</label>
@@ -63,78 +104,132 @@
         <span id="counterror" class="error"></span>
       </div>
       <div class="form-group">
-        <label>ENTER YOUR AADHAR NUMBER:</label>
-        <input type="password" id="adharno">
-        <span id="adharnoerror" class="error"></span>
-      </div>
-      <div class="form-group">
         <label>ENTER YOUR CONTACT NUMBER:</label>
         <input type="tel" id="contno">
         <span id="contacterror" class="error"></span>
       </div>
       <div class="form-group">
-        <label>ENTER YOUR E-MAIL:</label>
-        <input type="email" id="email">
-        <span id="emailerror" class="error"></span>
+        <label>DISCOUNT CODE:</label>
+        <input type="text" id="discountCode" placeholder="Try SAVE20">
       </div>
-      <div class="form-group">
-        <label>ENTER YOUR STARTING PLACE:</label>
-        <input type="text" id="stpl">
-        <span id="originerror" class="error"></span>
+      <div class="summary">
+        <p id="base-price">Base price: 0</p>
+        <p id="discount-amount">Discount: 0</p>
+        <p id="total-price"><strong>Total: 0</strong></p>
       </div>
-      <div class="form-group">
-        <label>ENTER NO OF CO-COMPANIONS:</label>
-        <input type="number" id="coco">
-        <span id="frndserror" class="error"></span>
-      </div>
-      <div class="select-group">
-        <label>PLACE CODE:</label>
-        <select id="pc">
-          <option value="1">ONE</option><option value="2">TWO</option>
-          <option value="3">THREE</option><option value="4">FOUR</option>
-          <option value="5">FIVE</option><option value="6">SIX</option>
-        </select>
-      </div>
-      <div class="select-group">
-        <label>TIME PERIOD:</label>
-        <select id="per">
-          <option value="1">Date 3 to 8</option>
-          <option value="2">Date 10 to 15</option>
-          <option value="3">Date 18 to 23</option>
-        </select>
-      </div>
-      <div class="select-group">
-        <input type="submit" value="GO FOR PAYMENT">
-      </div>
+      <input type="submit" value="PAY AND BOOK">
     </form>
   </div>
   <script>
-    function validform() {
-      var fields = ['nameerror','ageerror','doberror','counterror',
-                    'adharnoerror','contacterror','emailerror','originerror','frndserror'];
-      fields.forEach(id => document.getElementById(id).textContent = "");
-      let isValid = true;
-      var name    = document.getElementById('fname').value;
-      var age     = document.getElementById('fage').value;
-      var dob     = document.getElementById('fdob').value;
-      var count   = document.getElementById('fnooft').value;
-      var adharno = document.getElementById('adharno').value;
-      var contact = document.getElementById('contno').value;
-      var email   = document.getElementById('email').value;
-      var orgin   = document.getElementById('stpl').value;
-      var frnds   = document.getElementById('coco').value;
-      if (name === "" || !isNaN(name))          { document.getElementById('nameerror').textContent    = "Please enter the name properly.";              isValid = false; }
-      if (age === "")                            { document.getElementById('ageerror').textContent     = "Please enter your age properly.";             isValid = false; }
-      if (dob === "")                            { document.getElementById('doberror').textContent     = "Please enter your date of birth properly.";   isValid = false; }
-      if (count === "" || isNaN(count))          { document.getElementById('counterror').textContent   = "Please enter a valid ticket count.";          isValid = false; }
-      if (adharno === "")                        { document.getElementById('adharnoerror').textContent = "Please enter your Aadhar number correctly.";  isValid = false; }
-      if (contact === "" || isNaN(contact))      { document.getElementById('contacterror').textContent = "Please enter your contact number correctly."; isValid = false; }
-      if (email === "" || !email.includes("@"))  { document.getElementById('emailerror').textContent   = "Please enter a valid email address.";         isValid = false; }
-      if (orgin === "")                          { document.getElementById('originerror').textContent  = "Please enter your starting place.";           isValid = false; }
-      if (frnds === "")                          { document.getElementById('frndserror').textContent   = "Please enter the number of co-companions.";   isValid = false; }
-      if (isValid) alert("Form submitted! Proceeding to payment...");
-      return false;
+    const planPrices = { Switzerland: 60000, Maldives: 40000, Iceland: 75000, Delhi: 30000, 'Jammu and Kashmir': 20000, Goa: 40000 };
+    const STORAGE_KEYS = { user: 'irah_user', theme: 'irah_theme', bookings: 'irah_bookings' };
+    function getStoredUser() {
+      const storedUser = sessionStorage.getItem(STORAGE_KEYS.user);
+      return storedUser ? JSON.parse(storedUser) : null;
     }
+    function getBookings() {
+      const stored = localStorage.getItem(STORAGE_KEYS.bookings);
+      if (!stored) return {};
+      try {
+        const parsed = JSON.parse(stored);
+        return parsed && typeof parsed === 'object' && !Array.isArray(parsed) ? parsed : {};
+      } catch {
+        return {};
+      }
+    }
+    function saveBookings(bookings) { localStorage.setItem(STORAGE_KEYS.bookings, JSON.stringify(bookings)); }
+    function getUserBookings(user) {
+      const bookings = getBookings();
+      return Array.isArray(bookings[user.email]) ? bookings[user.email] : [];
+    }
+    function saveUserBookings(user, bookings) {
+      const allBookings = getBookings();
+      allBookings[user.email] = bookings;
+      saveBookings(allBookings);
+    }
+    function applyTheme(theme) { document.body.setAttribute('data-theme', theme); localStorage.setItem(STORAGE_KEYS.theme, theme); document.getElementById('theme-toggle').textContent = theme === 'light' ? '🌙 Dark' : '☀️ Light'; }
+    function renderSelectedItems() {
+      const items = JSON.parse(localStorage.getItem('irah_food_items') || '[]');
+      const list = document.getElementById('selected-items-list');
+      if (!items.length) {
+        list.innerHTML = '<li>No items selected yet.</li>';
+        return;
+      }
+      list.innerHTML = items.map(item => `<li>${item}</li>`).join('');
+    }
+    const params = new URLSearchParams(window.location.search);
+    const selectedPlan = params.get('plan') || 'Switzerland';
+    document.getElementById('plan').value = selectedPlan;
+    const user = getStoredUser();
+    if (!user) {
+      document.getElementById('login-status').textContent = 'Please log in at the account page before booking.';
+    } else {
+      document.getElementById('login-status').textContent = `Logged in as ${user.name}. You can book now.`;
+      document.getElementById('fname').value = user.name;
+    }
+    function updateSummary() {
+      const tickets = parseInt(document.getElementById('fnooft').value || '0', 10) || 0;
+      const plan = document.getElementById('plan').value;
+      const basePrice = planPrices[plan] * tickets;
+      const code = document.getElementById('discountCode').value.trim().toUpperCase();
+      let discount = 0;
+      if (code === 'SAVE20') discount = basePrice * 0.2;
+      const storedDiscount = parseInt(localStorage.getItem('irah_discount') || '0', 10);
+      if (storedDiscount > discount) discount = (basePrice * storedDiscount) / 100;
+      const total = Math.max(0, basePrice - discount);
+      document.getElementById('base-price').textContent = `Base price: ${basePrice.toLocaleString()} INR`;
+      document.getElementById('discount-amount').textContent = `Discount: ${discount.toLocaleString()} INR`;
+      document.getElementById('total-price').innerHTML = `<strong>Total: ${total.toLocaleString()} INR</strong>`;
+    }
+    document.getElementById('fnooft').addEventListener('input', updateSummary);
+    document.getElementById('plan').addEventListener('change', updateSummary);
+    document.getElementById('discountCode').addEventListener('input', updateSummary);
+    document.getElementById('theme-toggle').addEventListener('click', () => { const nextTheme = document.body.getAttribute('data-theme') === 'light' ? 'dark' : 'light'; applyTheme(nextTheme); });
+    const savedTheme = localStorage.getItem(STORAGE_KEYS.theme) || 'dark';
+    applyTheme(savedTheme);
+    renderSelectedItems();
+    document.getElementById('booking-form').addEventListener('submit', function (event) {
+      event.preventDefault();
+      if (!user) {
+        alert('Please log in first.');
+        return;
+      }
+      const fields = ['nameerror','counterror','contacterror'];
+      fields.forEach(id => document.getElementById(id).textContent = '');
+      let isValid = true;
+      const name = document.getElementById('fname').value.trim();
+      const tickets = document.getElementById('fnooft').value.trim();
+      const contact = document.getElementById('contno').value.trim();
+      if (!name) { document.getElementById('nameerror').textContent = 'Enter your name.'; isValid = false; }
+      if (!tickets || isNaN(tickets)) { document.getElementById('counterror').textContent = 'Enter a valid ticket count.'; isValid = false; }
+      if (!contact) { document.getElementById('contacterror').textContent = 'Enter your contact number.'; isValid = false; }
+      if (!isValid) return;
+      const selectedItems = JSON.parse(localStorage.getItem('irah_food_items') || '[]');
+      if (selectedItems.length > 0) {
+        const retainItems = window.confirm('Do you want to retain your previously selected food items for this booking? Click OK to keep them, or Cancel to choose new items before payment.');
+        if (!retainItems) {
+          window.location.href = 'menu.html?return=form';
+          return;
+        }
+      }
+      const plan = document.getElementById('plan').value;
+      const code = document.getElementById('discountCode').value.trim().toUpperCase();
+      const basePrice = planPrices[plan] * parseInt(tickets, 10);
+      let discount = code === 'SAVE20' ? basePrice * 0.2 : 0;
+      const storedDiscount = parseInt(localStorage.getItem('irah_discount') || '0', 10);
+      if (storedDiscount > 0 && storedDiscount > (code === 'SAVE20' ? 20 : 0)) discount = (basePrice * storedDiscount) / 100;
+      const total = Math.max(0, basePrice - discount);
+      const bookings = getUserBookings(user);
+      const now = new Date();
+      const endDate = new Date(now);
+      endDate.setDate(endDate.getDate() + 7);
+      const updatedBookings = bookings.map(booking => ({ ...booking, status: booking.status === 'Current' && booking.endDate && new Date(booking.endDate) < now ? 'Previous' : booking.status }));
+      updatedBookings.unshift({ plan, name, tickets, totalLabel: `${total.toLocaleString()} INR`, status: 'Current', items: selectedItems, endDate: endDate.toISOString(), userEmail: user.email });
+      saveUserBookings(user, updatedBookings);
+      alert(`Booking confirmed for ${plan}! Total to pay: ${total.toLocaleString()} INR`);
+      window.location.href = 'account.html';
+    });
+    updateSummary();
   </script>
 </body>
 </html>
