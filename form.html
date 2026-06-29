@@ -148,8 +148,18 @@
       saveBookings(allBookings);
     }
     function applyTheme(theme) { document.body.setAttribute('data-theme', theme); localStorage.setItem(STORAGE_KEYS.theme, theme); document.getElementById('theme-toggle').textContent = theme === 'light' ? '🌙 Dark' : '☀️ Light'; }
+    function getCurrentUser() {
+      const storedUser = sessionStorage.getItem(STORAGE_KEYS.user);
+      return storedUser ? JSON.parse(storedUser) : null;
+    }
+
+    function getFoodItemsKey() {
+      const currentUser = getCurrentUser();
+      return currentUser ? `irah_food_items_${currentUser.email}` : 'irah_food_items_guest';
+    }
+
     function renderSelectedItems() {
-      const items = JSON.parse(localStorage.getItem('irah_food_items') || '[]');
+      const items = JSON.parse(localStorage.getItem(getFoodItemsKey()) || '[]');
       const list = document.getElementById('selected-items-list');
       if (!items.length) {
         list.innerHTML = '<li>No items selected yet.</li>';
@@ -204,7 +214,7 @@
       if (!tickets || isNaN(tickets)) { document.getElementById('counterror').textContent = 'Enter a valid ticket count.'; isValid = false; }
       if (!contact) { document.getElementById('contacterror').textContent = 'Enter your contact number.'; isValid = false; }
       if (!isValid) return;
-      const selectedItems = JSON.parse(localStorage.getItem('irah_food_items') || '[]');
+      const selectedItems = JSON.parse(localStorage.getItem(getFoodItemsKey()) || '[]');
       if (selectedItems.length > 0) {
         const retainItems = window.confirm('Do you want to retain your previously selected food items for this booking? Click OK to keep them, or Cancel to choose new items before payment.');
         if (!retainItems) {

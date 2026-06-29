@@ -40,63 +40,139 @@
       justify-content: space-between;
       align-items: center;
       gap: 12px;
-      padding: 12px 16px;
-      background: linear-gradient(90deg, var(--accent-strong), var(--accent));
-      box-shadow: var(--shadow);
-      flex-wrap: wrap;
+      padding: 14px 24px;
+      background: rgba(0, 0, 0, 0.24);
+      backdrop-filter: blur(12px);
+      position: sticky;
+      top: 0;
+      z-index: 10;
     }
     nav a {
       color: var(--surface);
       text-decoration: none;
-      font-weight: bold;
-      margin: 0 8px;
+      font-weight: 700;
+      margin: 0 10px;
+      opacity: 0.9;
     }
+    nav a:hover { opacity: 1; }
     #theme-toggle {
-      border: none;
+      border: 1px solid rgba(255,255,255,0.18);
       border-radius: 999px;
-      padding: 8px 12px;
+      padding: 10px 14px;
       cursor: pointer;
-      background: var(--surface);
-      color: var(--accent-strong);
-      font-weight: bold;
+      background: rgba(255,255,255,0.04);
+      color: var(--surface);
+      font-weight: 700;
     }
-    main { max-width: 1000px; margin: 24px auto; padding: 0 16px 40px; }
+    main {
+      max-width: 1080px;
+      margin: 32px auto;
+      padding: 0 16px 40px;
+    }
     .panel {
-      background: linear-gradient(135deg, var(--surface), var(--bg));
-      border: 1px solid var(--border);
-      border-radius: 16px;
-      padding: 24px;
-      box-shadow: var(--shadow);
-      margin-bottom: 20px;
+      background: rgba(20, 8, 38, 0.92);
+      border: 1px solid rgba(134, 80, 255, 0.22);
+      border-radius: 24px;
+      padding: 32px;
+      box-shadow: 0 28px 60px rgba(0, 0, 0, 0.35);
+      margin-bottom: 24px;
     }
-    .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
-    .card { padding: 16px; border: 1px solid var(--border); border-radius: 12px; background: var(--surface); }
-    .muted { color: var(--muted); }
+    .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
+    .card {
+      padding: 28px;
+      border: 1px solid rgba(255, 22, 84, 0.22);
+      border-radius: 24px;
+      background: rgba(10, 4, 26, 0.95);
+      box-shadow: 0 20px 40px rgba(255, 22, 84, 0.12);
+    }
+    .muted { color: rgba(255,255,255,0.68); }
+    label {
+      display: block;
+      margin-bottom: 8px;
+      color: rgba(255,255,255,0.82);
+      font-size: 0.94rem;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+    }
+    .auth-card {
+      min-height: 360px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+    .form-section {
+      display: none;
+    }
+    .form-section.active {
+      display: block;
+    }
+    .toggle-link {
+      color: #ff5d86;
+      font-weight: 700;
+      border: none;
+      background: transparent;
+      cursor: pointer;
+      text-decoration: underline;
+      padding: 0;
+      margin-left: 4px;
+    }
+    .form-footer {
+      margin-top: 18px;
+      color: rgba(255,255,255,0.72);
+      font-size: 0.95rem;
+    }
     form input {
-      width: 100%; padding: 10px; margin-top: 6px; margin-bottom: 12px;
-      border: 1px solid var(--border); border-radius: 8px;
-      background: var(--bg); color: var(--text);
+      width: 100%;
+      padding: 14px 16px;
+      margin-bottom: 16px;
+      border: 1px solid rgba(124, 58, 237, 0.3);
+      border-radius: 16px;
+      background: rgba(255,255,255,0.04);
+      color: var(--surface);
+      font-size: 1rem;
+      outline: none;
+    }
+    form input::placeholder {
+      color: rgba(255,255,255,0.5);
     }
     button { cursor: pointer; }
     .primary-btn {
-      background: linear-gradient(90deg, var(--accent-strong), var(--accent));
-      color: var(--surface);
+      width: 100%;
+      background: linear-gradient(90deg, #7c3aed, #a855f7);
+      color: #f8f4ff;
       border: none;
-      padding: 10px 14px;
-      border-radius: 8px;
-      font-weight: bold;
+      padding: 14px 18px;
+      border-radius: 16px;
+      font-weight: 700;
+      font-size: 1rem;
+      box-shadow: 0 18px 28px rgba(124, 58, 237, 0.32);
     }
     .secondary-btn {
       background: transparent;
-      color: var(--accent);
-      border: 1px solid var(--accent);
-      padding: 10px 14px;
-      border-radius: 8px;
-      font-weight: bold;
+      color: #a855f7;
+      border: 1px solid rgba(168, 85, 247, 0.55);
+      padding: 12px 18px;
+      border-radius: 16px;
+      font-weight: 700;
+      width: 100%;
+      margin-top: 18px;
     }
+    h1, h2 { color: #f8f4ff; }
+    h2 { margin-bottom: 24px; }
     ul { padding-left: 20px; }
     li { margin-bottom: 8px; }
-    @media (max-width: 768px) { .grid { grid-template-columns: 1fr; } }
+    .auth-header {
+      margin-bottom: 20px;
+    }
+    .auth-header h1 {
+      margin: 0 0 10px;
+      font-size: 2.2rem;
+    }
+    .auth-header p {
+      margin: 0;
+      color: rgba(255,255,255,0.72);
+    }
+    @media (max-width: 900px) { .grid { grid-template-columns: 1fr; } }
   </style>
 </head>
 <body>
@@ -112,30 +188,45 @@
   </nav>
   <main>
     <section class="panel">
-      <h1>ACCOUNT</h1>
-      <p class="muted">Log in to book tours, view your current reservation, and review previous trips.</p>
+      <div class="auth-header">
+        <h1>Member Access</h1>
+        <p>Sign up or log in to manage your tour plans and account bookings.</p>
+      </div>
     </section>
     <section class="panel" id="auth-panel">
       <div class="grid">
-        <div class="card">
-          <h2>Sign up</h2>
-          <form id="signup-form">
-            <label>Name</label>
-            <input type="text" id="signup-name" required>
-            <label>Email</label>
-            <input type="email" id="signup-email" required>
-            <button class="primary-btn" type="submit">Sign up</button>
-          </form>
+        <div class="card auth-card">
+          <div class="form-section active" id="signup-section">
+            <h2>Sign up</h2>
+            <form id="signup-form">
+              <label>Name</label>
+              <input type="text" id="signup-name" placeholder="Your full name" required>
+              <label>Email</label>
+              <input type="email" id="signup-email" placeholder="Your email address" required>
+              <button class="primary-btn" type="submit">Sign up</button>
+            </form>
+            <div class="form-footer">
+              Already have an account?
+              <button class="toggle-link" type="button" id="show-login">Log in</button>
+            </div>
+          </div>
         </div>
-        <div class="card">
-          <h2>Login</h2>
-          <form id="login-form">
-            <label>Name</label>
-            <input type="text" id="login-name" required>
-            <label>Email</label>
-            <input type="email" id="login-email" required>
-            <button class="primary-btn" type="submit">Log in</button>
-          </form>
+
+        <div class="card auth-card">
+          <div class="form-section active" id="login-section">
+            <h2>Login</h2>
+            <form id="login-form">
+              <label>Name</label>
+              <input type="text" id="login-name" placeholder="Enter your name" required>
+              <label>Email</label>
+              <input type="email" id="login-email" placeholder="Enter your email" required>
+              <button class="primary-btn" type="submit">Log in</button>
+            </form>
+            <div class="form-footer">
+              New user?
+              <button class="toggle-link" type="button" id="show-signup">Register</button>
+            </div>
+          </div>
         </div>
       </div>
     </section>
@@ -279,25 +370,23 @@
       saveAccounts(accounts);
       this.reset();
       alert('Account created successfully. Please log in now.');
+      document.getElementById('signup-section').classList.remove('active');
+      document.getElementById('login-section').classList.add('active');
     });
 
     document.getElementById('login-form').addEventListener('submit', function (event) {
       event.preventDefault();
-      const enteredName = document.getElementById('login-name').value.trim();
+      const name = document.getElementById('login-name').value.trim().toLowerCase();
       const email = document.getElementById('login-email').value.trim().toLowerCase();
-      if (!enteredName || !email) {
+      if (!name || !email) {
         alert('Please enter your name and email.');
         return;
       }
       const accounts = getAccounts();
-      const matchedAccount = accounts.find(account => account.email.toLowerCase() === email);
+      const matchedAccount = accounts.find(account => account.email.toLowerCase() === email && account.name.trim().toLowerCase() === name);
       if (!matchedAccount) {
         alert('Account not found. Please sign up first.');
         return;
-      }
-      if (enteredName && enteredName.toLowerCase() !== matchedAccount.name.trim().toLowerCase()) {
-        matchedAccount.name = enteredName;
-        saveAccounts(accounts);
       }
       saveStoredUser({ name: matchedAccount.name, email: matchedAccount.email });
       renderAccount();
@@ -305,6 +394,21 @@
       if (params.get('next') === 'places') {
         window.location.href = 'places.html';
       }
+    });
+
+    document.getElementById('show-login').addEventListener('click', function () {
+      document.getElementById('signup-section').classList.remove('active');
+      document.getElementById('login-section').classList.add('active');
+    });
+
+    document.getElementById('show-signup').addEventListener('click', function () {
+      document.getElementById('login-section').classList.remove('active');
+      document.getElementById('signup-section').classList.add('active');
+    });
+
+    document.getElementById('show-signup-inline').addEventListener('click', function () {
+      document.getElementById('login-section').classList.remove('active');
+      document.getElementById('signup-section').classList.add('active');
     });
 
     document.getElementById('logout-btn').addEventListener('click', function () {

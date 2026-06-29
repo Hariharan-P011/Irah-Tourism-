@@ -77,14 +77,24 @@
     Further details contact 1234567890 or email: abc123@gmail.com
   </footer>
   <script>
-    const STORAGE_KEYS = { foodItems: 'irah_food_items' };
+    const STORAGE_KEYS = { foodItems: 'irah_food_items', user: 'irah_user' };
+
+    function getCurrentUser() {
+      const storedUser = sessionStorage.getItem(STORAGE_KEYS.user);
+      return storedUser ? JSON.parse(storedUser) : null;
+    }
+
+    function getFoodItemsKey() {
+      const user = getCurrentUser();
+      return user ? `${STORAGE_KEYS.foodItems}_${user.email}` : `${STORAGE_KEYS.foodItems}_guest`;
+    }
 
     function getFoodItems() {
-      return JSON.parse(localStorage.getItem(STORAGE_KEYS.foodItems) || '[]');
+      return JSON.parse(localStorage.getItem(getFoodItemsKey()) || '[]');
     }
 
     function saveFoodItems(items) {
-      localStorage.setItem(STORAGE_KEYS.foodItems, JSON.stringify(items));
+      localStorage.setItem(getFoodItemsKey(), JSON.stringify(items));
     }
 
     function renderFoodItems() {
@@ -139,6 +149,14 @@
     }
 
     const returnTarget = new URLSearchParams(window.location.search).get('return');
+    const currentUser = getCurrentUser();
+    if (!currentUser) {
+      const loginNote = document.createElement('p');
+      loginNote.style.textAlign = 'center';
+      loginNote.style.color = 'var(--muted)';
+      loginNote.textContent = 'Log in on the account page to save items per user.';
+      document.querySelector('.menu').prepend(loginNote);
+    }
     if (returnTarget === 'form') {
       const note = document.createElement('p');
       note.style.textAlign = 'center';
