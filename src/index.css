@@ -1,0 +1,11 @@
+html, body, #root {
+  min-height: 100%;
+}
+
+body {
+  margin: 0;
+}
+
+button, input, select, textarea {
+  font-family: inherit;
+}

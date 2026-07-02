@@ -1,0 +1,204 @@
+:root {
+  color-scheme: dark;
+  --bg: #0f0b18;
+  --surface: #171224;
+  --text: #f8f4ff;
+  --muted: #d9c7ff;
+  --accent: #a855f7;
+  --accent-strong: #7c3aed;
+  --border: rgba(168, 85, 247, 0.35);
+  --shadow: 0 14px 34px rgba(0, 0, 0, 0.25);
+}
+
+body[data-theme='light'] {
+  color-scheme: light;
+  --bg: #f7f1ff;
+  --surface: #ffffff;
+  --text: #1f132f;
+  --muted: #5f4a7e;
+  --accent: #7c3aed;
+  --accent-strong: #5b21b6;
+  --border: rgba(124, 58, 237, 0.35);
+  --shadow: 0 12px 28px rgba(124, 58, 237, 0.12);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  line-height: 1.6;
+}
+
+button,
+input,
+select,
+textarea {
+  font: inherit;
+}
+
+.app-shell {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.app-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 12px;
+  padding: 16px 24px;
+  background: rgba(0, 0, 0, 0.24);
+  backdrop-filter: blur(12px);
+  box-shadow: var(--shadow);
+  position: sticky;
+  top: 0;
+  z-index: 10;
+}
+
+.brand {
+  font-weight: 900;
+  letter-spacing: 0.08em;
+}
+
+.app-nav {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.app-nav a {
+  color: var(--text);
+  text-decoration: none;
+  font-weight: 700;
+  padding: 8px 12px;
+  border-radius: 999px;
+  transition: background 0.2s ease;
+}
+
+.app-nav a.active,
+.app-nav a:hover {
+  background: rgba(124, 58, 237, 0.18);
+}
+
+.app-main {
+  width: min(100% - 32px, 1200px);
+  max-width: 1200px;
+  margin: 32px auto;
+  padding: 0 16px 40px;
+}
+
+.page-panel {
+  background: rgba(20, 8, 38, 0.92);
+  border: 1px solid rgba(134, 80, 255, 0.22);
+  border-radius: 24px;
+  box-shadow: 0 28px 60px rgba(0, 0, 0, 0.35);
+  padding: 32px;
+  margin-bottom: 24px;
+}
+
+.page-panel h1,
+.page-panel h2,
+.page-panel h3 {
+  margin-top: 0;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 24px;
+}
+
+.card {
+  background: rgba(10, 4, 26, 0.95);
+  border: 1px solid rgba(255, 22, 84, 0.22);
+  border-radius: 24px;
+  box-shadow: 0 20px 40px rgba(255, 22, 84, 0.12);
+  padding: 24px;
+}
+
+.button,
+.primary-btn,
+.secondary-btn,
+.link-btn {
+  cursor: pointer;
+  border: none;
+  border-radius: 14px;
+  padding: 12px 18px;
+  font-weight: 700;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+}
+
+.primary-btn {
+  color: #f8f4ff;
+  background: linear-gradient(90deg, #7c3aed, #a855f7);
+}
+
+.secondary-btn,
+.link-btn {
+  color: var(--accent);
+  background: rgba(124, 58, 237, 0.08);
+  border: 1px solid rgba(124, 58, 237, 0.35);
+  text-decoration: none;
+}
+
+.form-field {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-bottom: 18px;
+}
+
+.form-field label {
+  font-size: 0.95rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: rgba(255, 255, 255, 0.82);
+}
+
+input,
+select,
+textarea {
+  width: 100%;
+  padding: 14px 16px;
+  border: 1px solid rgba(124, 58, 237, 0.3);
+  border-radius: 16px;
+  background: rgba(255, 255, 255, 0.06);
+  color: var(--text);
+  outline: none;
+}
+
+input::placeholder,
+textarea::placeholder {
+  color: var(--muted);
+}
+
+.small-text {
+  color: rgba(255, 255, 255, 0.72);
+}
+
+.inline-links {
+  display: inline-flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+
+.full-width {
+  width: 100%;
+}
+
+@media (max-width: 768px) {
+  .app-main {
+    width: 100%;
+    margin: 24px auto;
+  }
+}
