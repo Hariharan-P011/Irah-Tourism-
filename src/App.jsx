@@ -4,7 +4,6 @@ import PlacesPage from './pages/PlacesPage.jsx';
 import MenuPage from './pages/MenuPage.jsx';
 import AccountPage from './pages/AccountPage.jsx';
 import AboutPage from './pages/AboutPage.jsx';
-import DiscountPage from './pages/DiscountPage.jsx';
 import FormPage from './pages/FormPage.jsx';
 import DetailsPage from './pages/DetailsPage.jsx';
 import NotFoundPage from './pages/NotFoundPage.jsx';
@@ -32,7 +31,6 @@ function App() {
             <Route path="/menu" element={<MenuPage />} />
             <Route path="/account" element={<AccountPage />} />
             <Route path="/about" element={<AboutPage />} />
-            <Route path="/discount" element={<DiscountPage />} />
             <Route path="/form" element={<FormPage />} />
             <Route path="/details" element={<DetailsPage />} />
             <Route path="*" element={<NotFoundPage />} />

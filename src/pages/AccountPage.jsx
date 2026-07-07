@@ -134,68 +134,74 @@ const AccountPage = () => {
       </div>
       {!user && (
         <div className="page-panel">
-          <div className="grid">
-            <div className="card">
-              <h2>Sign up</h2>
-              <form onSubmit={handleSignup}>
-                <div className="form-field">
-                  <label htmlFor="signup-name">Name</label>
-                  <input
-                    id="signup-name"
-                    value={signupName}
-                    onChange={e => setSignupName(e.target.value)}
-                    placeholder="Your full name"
-                    required
-                  />
-                </div>
-                <div className="form-field">
-                  <label htmlFor="signup-email">Email</label>
-                  <input
-                    id="signup-email"
-                    type="email"
-                    value={signupEmail}
-                    onChange={e => setSignupEmail(e.target.value)}
-                    placeholder="Your email address"
-                    required
-                  />
-                </div>
-                <button className="primary-btn full-width" type="submit">Sign up</button>
-                <div className="form-footer small-text" style={{ marginTop: '18px' }}>
-                  Already have an account?{' '}
-                  <button className="link-btn" type="button" onClick={() => setView('login')}>Log in</button>
-                </div>
-              </form>
-            </div>
-            <div className="card">
-              <h2>Login</h2>
-              <form onSubmit={handleLogin}>
-                <div className="form-field">
-                  <label htmlFor="login-name">Name</label>
-                  <input
-                    id="login-name"
-                    value={loginName}
-                    onChange={e => setLoginName(e.target.value)}
-                    placeholder="Enter your name"
-                    required
-                  />
-                </div>
-                <div className="form-field">
-                  <label htmlFor="login-email">Email</label>
-                  <input
-                    id="login-email"
-                    type="email"
-                    value={loginEmail}
-                    onChange={e => setLoginEmail(e.target.value)}
-                    placeholder="Enter your email"
-                    required
-                  />
-                </div>
-                <button className="primary-btn full-width" type="submit">Log in</button>
-                <div className="form-footer small-text" style={{ marginTop: '18px' }}>
-                  New user?{' '}
-                  <button className="link-btn" type="button" onClick={() => setView('signup')}>Register</button>
-                </div>
-              </form>
+          <div className="auth-window">
+            <div className={`auth-slider${view === 'signup' ? ' show-signup' : ''}`}>
+              {/* Login Panel */}
+              <div className="auth-panel">
+                <h2>Login</h2>
+                <p className="small-text">Welcome back. Enter your credentials to continue.</p>
+                <form onSubmit={handleLogin}>
+                  <div className="form-field">
+                    <label htmlFor="login-name">Full Name</label>
+                    <input
+                      id="login-name"
+                      value={loginName}
+                      onChange={e => setLoginName(e.target.value)}
+                      placeholder="Enter your name"
+                      required
+                    />
+                  </div>
+                  <div className="form-field">
+                    <label htmlFor="login-email">Email Address</label>
+                    <input
+                      id="login-email"
+                      type="email"
+                      value={loginEmail}
+                      onChange={e => setLoginEmail(e.target.value)}
+                      placeholder="Enter your email"
+                      required
+                    />
+                  </div>
+                  <button className="primary-btn full-width" type="submit">Log In</button>
+                  <p className="small-text" style={{ marginTop: '16px', textAlign: 'center' }}>
+                    New to I-RAH?{' '}
+                    <button className="link-btn" type="button" onClick={() => setView('signup')}>Create an account</button>
+                  </p>
+                </form>
+              </div>
+              {/* Sign Up Panel */}
+              <div className="auth-panel">
+                <h2>Create Account</h2>
+                <p className="small-text">Join I-RAH Tourism and start exploring the world.</p>
+                <form onSubmit={handleSignup}>
+                  <div className="form-field">
+                    <label htmlFor="signup-name">Full Name</label>
+                    <input
+                      id="signup-name"
+                      value={signupName}
+                      onChange={e => setSignupName(e.target.value)}
+                      placeholder="Your full name"
+                      required
+                    />
+                  </div>
+                  <div className="form-field">
+                    <label htmlFor="signup-email">Email Address</label>
+                    <input
+                      id="signup-email"
+                      type="email"
+                      value={signupEmail}
+                      onChange={e => setSignupEmail(e.target.value)}
+                      placeholder="Your email address"
+                      required
+                    />
+                  </div>
+                  <button className="primary-btn full-width" type="submit">Sign Up</button>
+                  <p className="small-text" style={{ marginTop: '16px', textAlign: 'center' }}>
+                    Already have an account?{' '}
+                    <button className="link-btn" type="button" onClick={() => setView('login')}>Log in</button>
+                  </p>
+                </form>
+              </div>
             </div>
           </div>
         </div>
